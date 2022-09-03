@@ -20,13 +20,16 @@ public class UpdateUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userId = req.getParameter("userId");
-        log.debug("userId : {}", userId);
-        User user = DataBase.findUserById(userId);
-        log.debug("user : {}", user);
-        req.setAttribute("user", user);
-        RequestDispatcher rd = req.getRequestDispatcher("/user/update.jsp");
-        rd.forward(req, resp);
+        User value = (User) req.getSession().getAttribute("user");
+        if (value.getUserId().equals(req.getParameter("userId"))) {
+            String userId = req.getParameter("userId");
+            User user = DataBase.findUserById(userId);
+            req.setAttribute("user", user);
+            RequestDispatcher rd = req.getRequestDispatcher("/user/update.jsp");
+            rd.forward(req, resp);
+        } else {
+            resp.sendRedirect("/user/list");
+        }
     }
 
     @Override
