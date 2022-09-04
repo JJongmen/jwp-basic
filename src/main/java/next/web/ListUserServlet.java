@@ -27,7 +27,7 @@ public class ListUserServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         log.debug("user : {}", user);
         if (user == null) {
-            resp.sendRedirect("/user/login.html");
+            resp.sendRedirect("/user/login.jsp");
         } else {
             req.setAttribute("users", DataBase.findAll());
             RequestDispatcher rd = req.getRequestDispatcher("/user/list.jsp");

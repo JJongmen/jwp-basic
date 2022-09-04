@@ -12,10 +12,15 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("/user/login.jsp");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = DataBase.findUserById(req.getParameter("userId"));
         if (user == null) {
-            resp.sendRedirect("/user/login_failed.html");
+            resp.sendRedirect("/user/login_failed.jsp");
         } else {
             if (user.getPassword().equals(req.getParameter("password"))) {
                 HttpSession session = req.getSession();
