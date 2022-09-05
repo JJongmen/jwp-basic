@@ -2,16 +2,14 @@ package next.controller;
 
 import java.io.IOException;
 
-import javax.naming.ldap.Control;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import core.db.DataBase;
+import core.mvc.Controller;
 import next.model.User;
 
 public class LoginController implements Controller {
@@ -25,9 +23,6 @@ public class LoginController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if ("GET".equals(request.getMethod())) {
-            return "/user/login.jsp";
-        }
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
         User user = DataBase.findUserById(userId);

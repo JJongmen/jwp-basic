@@ -1,6 +1,7 @@
-package next.controller;
+package core.mvc;
 
-import javax.servlet.http.HttpServlet;
+import next.controller.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,12 +10,12 @@ public class RequestMapping {
     static {
         controllers.put("", new HomeController());
         controllers.put("/users/login", new LoginController());
-        controllers.put("/users/loginForm", new LoginController());
+        controllers.put("/users/loginForm", new ForwardController("/user/login.jsp"));
         controllers.put("/users/update", new UpdateUserController());
         controllers.put("/users/updateForm", new UpdateUserController());
         controllers.put("/users", new ListUserController());
         controllers.put("/users/create", new CreateUserController());
-        controllers.put("/users/form", new CreateUserController());
+        controllers.put("/users/form", new ForwardController("/user/form.jsp"));
         controllers.put("/users/logout", new LogoutController());
         controllers.put("/users/profile", new ProfileController());
     }
