@@ -15,33 +15,30 @@ import org.slf4j.LoggerFactory;
 import core.db.DataBase;
 import next.model.User;
 
-public class UpdateUserController extends HttpServlet {
+public class UpdateUserController implements Controller {
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(UpdateUserController.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userId = req.getParameter("userId");
-        User user = DataBase.findUserById(userId);
-        if (!UserSessionUtils.isSameUser(req.getSession(), user)) {
-            throw new IllegalStateException("다른 사용자의 정보를 수정할 수 없습니다.");
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if ("GET".equals(request.getMethod())) {
+            String userId = request.getParameter("userId");
+            User user = DataBase.findUserById(userId);
+            if (!UserSessionUtils.isSameUser(request.getSession(), user)) {
+                throw new IllegalStateException("다른 사용자의 정보를 수정할 수 없습니다.");
+            }
+            request.setAttribute("user", user);
+            return "/user/updateForm.jsp";
         }
-        req.setAttribute("user", user);
-        RequestDispatcher rd = req.getRequestDispatcher("/user/updateForm.jsp");
-        rd.forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = DataBase.findUserById(req.getParameter("userId"));
-        if (!UserSessionUtils.isSameUser(req.getSession(), user)) {
+        User user = DataBase.findUserById(request.getParameter("userId"));
+        if (!UserSessionUtils.isSameUser(request.getSession(), user)) {
             throw new IllegalStateException("다른 사용자의 정보를 수정할 수 없습니다.");
         }
 
-        User updateUser = new User(req.getParameter("userId"), req.getParameter("password"), req.getParameter("name"),
-                req.getParameter("email"));
+        User updateUser = new User(request.getParameter("userId"), request.getParameter("password"), request.getParameter("name"),
+                request.getParameter("email"));
         log.debug("Update User : {}", updateUser);
         user.update(updateUser);
-        resp.sendRedirect("/");
+        return "redirect:/";
     }
 }

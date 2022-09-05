@@ -24,7 +24,6 @@ public class CharacterEncodingFilter implements Filter {
         request.setCharacterEncoding(DEFAULT_ENCODING);
         response.setCharacterEncoding(DEFAULT_ENCODING);
         chain.doFilter(request, response);
-
     }
 
     @Override

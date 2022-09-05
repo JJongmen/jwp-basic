@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestMapping {
-    private static Map<String, HttpServlet> controllers = new HashMap<>();
+    private static Map<String, Controller> controllers = new HashMap<>();
     static {
         controllers.put("", new HomeController());
         controllers.put("/users/login", new LoginController());
@@ -19,7 +19,7 @@ public class RequestMapping {
         controllers.put("/users/profile", new ProfileController());
     }
 
-    static HttpServlet getController(String url) {
+    static Controller getController(String url) {
         return controllers.get(url);
     }
 }
