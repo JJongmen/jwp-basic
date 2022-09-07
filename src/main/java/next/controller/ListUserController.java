@@ -5,15 +5,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import core.db.DataBase;
 import core.mvc.Controller;
+import next.dao.UserDao;
+import org.slf4j.Logger;
+
+import java.sql.SQLException;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class ListUserController implements Controller {
+    private final Logger log = getLogger(ListUserController.class);
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         if (!UserSessionUtils.isLogined(req.getSession())) {
             return "redirect:/users/loginForm";
         }
 
-        req.setAttribute("users", DataBase.findAll());
+        UserDao userDao = new UserDao();
+        try {
+            req.setAttribute("users", userDao.findAll());
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
         return "/user/list.jsp";
     }
 }
