@@ -7,10 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static next.dao.UserDao.createQueryForUpdate;
-import static next.dao.UserDao.setValuesForUpdate;
-
-public class UpdateJdbcTemplate {
+public abstract class UpdateJdbcTemplate {
     public void update(User user) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -30,4 +27,6 @@ public class UpdateJdbcTemplate {
             }
         }
     }
+    protected abstract String createQueryForUpdate();
+    protected abstract void setValuesForUpdate(User user, PreparedStatement pstmt) throws SQLException;
 }

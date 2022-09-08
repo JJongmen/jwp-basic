@@ -7,10 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static next.dao.UserDao.createQueryForInsert;
-import static next.dao.UserDao.setValuesForInsert;
-
-public class InsertJdbcTemplate {
+public abstract class InsertJdbcTemplate {
     public void insert(User user) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -31,4 +28,8 @@ public class InsertJdbcTemplate {
             }
         }
     }
+
+    protected abstract String createQueryForInsert();
+
+    protected abstract void setValuesForInsert(User user, PreparedStatement pstmt) throws SQLException;
 }
