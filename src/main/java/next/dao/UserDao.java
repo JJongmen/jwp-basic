@@ -40,7 +40,7 @@ public class UserDao {
     }
 
     public List<User> findAll() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate<User> jdbcTemplate = new JdbcTemplate<>();
         PreparedStatementSetter pstmtSetter = new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -48,20 +48,20 @@ public class UserDao {
             }
         };
 
-        RowMapper rowMapper = new RowMapper() {
+        RowMapper<User> rowMapper = new RowMapper<User>() {
             @Override
-            public Object mapRow(ResultSet rs) throws SQLException {
+            public User mapRow(ResultSet rs) throws SQLException {
                 User user = new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
                         rs.getString("email"));
                 return user;
             }
         };
 
-        return (List<User>)(Object) jdbcTemplate.query("SELECT userId, password, name, email FROM USERS", pstmtSetter, rowMapper);
+        return jdbcTemplate.query("SELECT userId, password, name, email FROM USERS", pstmtSetter, rowMapper);
     }
 
     public User findByUserId(String userId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate<User> jdbcTemplate = new JdbcTemplate<>();
         PreparedStatementSetter pstmtSetter = new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -69,15 +69,16 @@ public class UserDao {
             }
         };
 
-        RowMapper rowMapper = new RowMapper() {
+        RowMapper<User> rowMapper = new RowMapper<User>() {
+
             @Override
-            public Object mapRow(ResultSet rs) throws SQLException {
+            public User mapRow(ResultSet rs) throws SQLException {
                 User user = new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
                         rs.getString("email"));
                 return user;
             }
         };
 
-        return (User) jdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?", pstmtSetter, rowMapper);
+        return jdbcTemplate.queryForObject("SELECT userId, password, name, email FROM USERS WHERE userid=?", pstmtSetter, rowMapper);
     }
 }
