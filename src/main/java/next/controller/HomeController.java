@@ -16,13 +16,9 @@ public class HomeController implements Controller {
     private final Logger log = getLogger(HomeController.class);
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         UserDao userDao = new UserDao();
-        try {
-            req.setAttribute("users", userDao.findAll());
-        } catch (SQLException e) {
-            log.error(e.getMessage());
-        }
+        req.setAttribute("users", userDao.findAll());
         return "home.jsp";
     }
 }

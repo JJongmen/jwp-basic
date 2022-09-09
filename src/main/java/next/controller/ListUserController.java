@@ -16,17 +16,14 @@ public class ListUserController implements Controller {
     private final Logger log = getLogger(ListUserController.class);
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         if (!UserSessionUtils.isLogined(req.getSession())) {
             return "redirect:/users/loginForm";
         }
 
         UserDao userDao = new UserDao();
-        try {
-            req.setAttribute("users", userDao.findAll());
-        } catch (SQLException e) {
-            log.error(e.getMessage());
-        }
+        req.setAttribute("users", userDao.findAll());
+
         return "/user/list.jsp";
     }
 }

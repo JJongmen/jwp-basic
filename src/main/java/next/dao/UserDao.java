@@ -10,7 +10,7 @@ import next.model.User;
 
 public class UserDao {
 
-    public void insert(User user) throws SQLException {
+    public void insert(User user) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         PreparedStatementSetter pstmtSetter = new PreparedStatementSetter() {
             @Override
@@ -24,7 +24,7 @@ public class UserDao {
         jdbcTemplate.update("INSERT INTO USERS VALUES (?, ?, ?, ?)", pstmtSetter);
     }
 
-    public void update(User user) throws SQLException {
+    public void update(User user) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         PreparedStatementSetter pstmtSetter = new PreparedStatementSetter() {
             @Override
@@ -39,7 +39,7 @@ public class UserDao {
         jdbcTemplate.update("UPDATE USERS SET password=?, name=?, email=? WHERE userId=?", pstmtSetter);
     }
 
-    public List<User> findAll() throws SQLException {
+    public List<User> findAll() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         PreparedStatementSetter pstmtSetter = new PreparedStatementSetter() {
             @Override
@@ -60,7 +60,7 @@ public class UserDao {
         return (List<User>)(Object) jdbcTemplate.query("SELECT userId, password, name, email FROM USERS", pstmtSetter, rowMapper);
     }
 
-    public User findByUserId(String userId) throws SQLException {
+    public User findByUserId(String userId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         PreparedStatementSetter pstmtSetter = new PreparedStatementSetter() {
             @Override

@@ -17,18 +17,14 @@ public class ProfileController implements Controller {
     private final Logger log = getLogger(ProfileController.class);
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String userId = req.getParameter("userId");
         UserDao userDao = new UserDao();
-        try {
-            User user = userDao.findByUserId(userId);
-            if (user == null) {
-                throw new NullPointerException("사용자를 찾을 수 없습니다.");
-            }
-            req.setAttribute("user", user);
-        } catch (SQLException e) {
-            log.error(e.getMessage());
+        User user = userDao.findByUserId(userId);
+        if (user == null) {
+            throw new NullPointerException("사용자를 찾을 수 없습니다.");
         }
+        req.setAttribute("user", user);
         return "/user/profile.jsp";
     }
 }

@@ -11,57 +11,37 @@ import java.util.List;
 
 public class JdbcTemplate {
 
-    public void update(String sql,PreparedStatementSetter pstmtSetter) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(sql);
+    public void update(String sql,PreparedStatementSetter pstmtSetter) {
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql);) {
             pstmtSetter.setValues(pstmt);
-
             pstmt.executeUpdate();
-        } finally {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
         }
     }
 
-    public List<Object> query(String sql, PreparedStatementSetter pstmtSetter, RowMapper rowMapper) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(sql);
+    public List<Object> query(String sql, PreparedStatementSetter pstmtSetter, RowMapper rowMapper) {
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql);) {
             pstmtSetter.setValues(pstmt);
-
-            rs = pstmt.executeQuery();
-
-            List<Object> result = new ArrayList<>();
-            Object object = null;
-            while (rs.next()) {
-                object = rowMapper.mapRow(rs);
-                result.add(object);
+            try (ResultSet rs = pstmt.executeQuery();) {
+                List<Object> result = new ArrayList<>();
+                Object object = null;
+                while (rs.next()) {
+                    object = rowMapper.mapRow(rs);
+                    result.add(object);
+                }
+                return result;
+            } catch (SQLException e) {
+                throw new DataAccessException(e.getMessage());
             }
-            return result;
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (pstmt != null) {
-                pstmt.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
         }
     }
 
-    public Object queryForObject(String sql, PreparedStatementSetter pstmtSetter, RowMapper rowMapper) throws SQLException {
+    public Object queryForObject(String sql, PreparedStatementSetter pstmtSetter, RowMapper rowMapper) {
         return query(sql, pstmtSetter, rowMapper).get(0);
     }
 }
