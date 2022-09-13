@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class QuestionDao {
-    public Question findByQuestionId(int questionId) {
+    public Question findByQuestionId(long questionId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "SELECT * FROM QUESTIONS WHERE questionId = ?";
         return jdbcTemplate.queryForObject(sql, rs -> new Question(

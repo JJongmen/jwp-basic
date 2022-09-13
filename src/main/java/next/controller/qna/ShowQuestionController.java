@@ -1,4 +1,4 @@
-package next.controller;
+package next.controller.qna;
 
 
 import core.mvc.Controller;
@@ -14,7 +14,7 @@ public class ShowQuestionController implements Controller {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String questionId = req.getParameter("questionId");
         QuestionDao questionDao = new QuestionDao();
-        Question question = questionDao.findByQuestionId(Integer.parseInt(questionId));
+        Question question = questionDao.findByQuestionId(Long.parseLong(questionId));
         req.setAttribute("question", question);
         return "/qna/show.jsp";
     }

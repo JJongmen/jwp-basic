@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import next.controller.*;
+import next.controller.qna.CreateQuestionController;
+import next.controller.qna.ShowQuestionController;
+import next.controller.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +26,8 @@ public class RequestMapping {
         mappings.put("/users/updateForm", new UpdateFormUserController());
         mappings.put("/users/update", new UpdateUserController());
         mappings.put("/qna/show", new ShowQuestionController());
+        mappings.put("/qna/form", new ForwardController("/qna/form.jsp"));
+        mappings.put("/qna/create", new CreateQuestionController());
 
         logger.info("Initialized Request Mapping!");
     }

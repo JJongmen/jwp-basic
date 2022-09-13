@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="kr">
@@ -31,9 +32,9 @@
                       </div>
                   </div>
                   <div class="article-doc">
-                      ${question.contents}
-<%--                      <p>A 에 의존성을 가지는 B라는 클래스가 있습니다.</p><p>B라는 클래스는 InitializingBean 을 상속하고 afterPropertiesSet을 구현하고 있습니다.--%>
-<%--                      서버가 가동되면서 bean들이 초기화되는 시점에 B라는 클래스의 afterPropertiesSet 메소드는</p><p>A라는 클래스의 특정 메소드인 afunc()를 호출하고 있습니다.</p>--%>
+                      <% pageContext.setAttribute("newLineChar", "\n"); %>
+                      <c:set var="contents" value="${question.contents}"/>
+                      ${fn:replace(contents, newLineChar, "<br/>")}
                   </div>
                   <div class="article-util">
                       <ul class="article-util-list">
