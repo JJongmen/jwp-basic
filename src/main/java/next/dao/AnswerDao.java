@@ -1,7 +1,6 @@
 package next.dao;
 
 import core.jdbc.JdbcTemplate;
-import core.jdbc.RowMapper;
 import next.model.Answer;
 
 import java.sql.Timestamp;

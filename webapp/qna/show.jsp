@@ -117,11 +117,12 @@
                                   </ul>
                               </div>
                           </article>
-                          <form class="submit-write">
+                          <form class="submit-write" action="/answer/create" method="POST">
+                              <input type="hidden" name="questionId" id="questionId" value="${question.questionId}"/>
                               <div class="form-group" style="padding:14px;">
-                                  <textarea class="form-control" placeholder="Update your status"></textarea>
+                                  <textarea name="contents" id="contents" class="form-control" placeholder="Update your status"></textarea>
                               </div>
-                              <button class="btn btn-success pull-right" type="button">Post</button>
+                              <button class="btn btn-success pull-right" type="submit">Post</button>
                               <div class="clearfix" />
                           </form>
                       </div>

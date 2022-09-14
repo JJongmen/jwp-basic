@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import next.controller.*;
+import next.controller.qna.CreateAnswerController;
 import next.controller.qna.CreateQuestionController;
 import next.controller.qna.ShowQuestionController;
 import next.controller.user.*;
@@ -28,6 +29,7 @@ public class RequestMapping {
         mappings.put("/qna/show", new ShowQuestionController());
         mappings.put("/qna/form", new ForwardController("/qna/form.jsp"));
         mappings.put("/qna/create", new CreateQuestionController());
+        mappings.put("/answer/create", new CreateAnswerController());
 
         logger.info("Initialized Request Mapping!");
     }
