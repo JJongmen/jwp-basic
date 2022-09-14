@@ -3,7 +3,9 @@ package next.controller.qna;
 import core.mvc.Controller;
 import next.controller.user.UserSessionUtils;
 import next.dao.AnswerDao;
+import next.dao.QuestionDao;
 import next.model.Answer;
+import next.model.Question;
 import next.model.User;
 import org.slf4j.Logger;
 
@@ -25,11 +27,8 @@ public class CreateAnswerController implements Controller {
         AnswerDao answerDao = new AnswerDao();
         User user = UserSessionUtils.getUserFromSession(session);
         String writer = user.getName();
-        String questionId = req.getParameter("questionId");
-        log.debug("writer : {}", writer);
-        log.debug("contents : {}", req.getParameter("contents"));
-        log.debug("questionId : {}", questionId);
-        answerDao.insert(new Answer(writer, req.getParameter("contents"), Long.parseLong(questionId)));
+        long questionId = Long.parseLong(req.getParameter("questionId"));
+        answerDao.insert(new Answer(writer, req.getParameter("contents"), questionId));
         return "redirect:/qna/show?questionId=" + questionId;
     }
 }
