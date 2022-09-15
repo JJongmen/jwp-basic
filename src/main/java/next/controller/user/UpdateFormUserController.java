@@ -3,15 +3,14 @@ package next.controller.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import core.mvc.AbstractController;
 import core.mvc.Controller;
-import core.mvc.JspView;
 import core.mvc.ModelAndView;
-import core.mvc.View;
 import next.controller.UserSessionUtils;
 import next.dao.UserDao;
 import next.model.User;
 
-public class UpdateFormUserController implements Controller {
+public class UpdateFormUserController extends AbstractController {
 
     @Override
     public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -21,8 +20,6 @@ public class UpdateFormUserController implements Controller {
         if (!UserSessionUtils.isSameUser(req.getSession(), user)) {
             throw new IllegalStateException("다른 사용자의 정보를 수정할 수 없습니다.");
         }
-        ModelAndView mv = new ModelAndView("/user/updateForm.jsp");
-        mv.setAttribute("user", user);
-        return mv;
+        return jspView("/user/updateForm.jsp").addObject("user", user);
     }
 }
