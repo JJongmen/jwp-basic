@@ -26,4 +26,18 @@ public class AnswerDaoTest {
         Answer answer = dut.insert(expected);
         System.out.println("Answer : " + answer);
     }
+
+    @Test
+    public void delete() throws Exception {
+        long questionId = 1L;
+        Answer answer = new Answer("javajigi", "answer contents", questionId);
+        AnswerDao answerDao = new AnswerDao();
+        Answer savedAnswer = answerDao.insert(answer);
+        int beforeSize = answerDao.findAllByQuestionId(questionId).size();
+
+        answerDao.remove(savedAnswer.getAnswerId());
+        int afterSize = answerDao.findAllByQuestionId(questionId).size();
+        System.out.println("beforeSize = " + beforeSize);
+        System.out.println("afterSize = " + afterSize);
+    }
 }
