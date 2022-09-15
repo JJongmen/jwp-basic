@@ -7,15 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 public class JsonView implements View {
 
     @Override
-    public void render(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Map<String, Object> model = createModel(request);
+    public void render(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         convertJson(response, model);
     }
 
@@ -27,16 +24,5 @@ public class JsonView implements View {
         for (Object value : values) {
             out.print(mapper.writeValueAsString(value));
         }
-    }
-
-    private static Map<String, Object> createModel(HttpServletRequest request) {
-        Map<String, Object> model = new HashMap<>();
-        Enumeration<String> attributeNames = request.getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            String key = attributeNames.nextElement();
-            Object value = request.getAttribute(key);
-            model.put(key, value);
-        }
-        return model;
     }
 }
