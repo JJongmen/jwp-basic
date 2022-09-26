@@ -10,9 +10,11 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+@WebFilter("/*")
 public class CharacterEncodingFilter implements Filter {
     private final Logger log = getLogger(CharacterEncodingFilter.class);
     private static final String DEFAULT_ENCODING = "UTF-8";

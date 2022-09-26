@@ -21,9 +21,10 @@ public class ContextLoaderListener implements ServletContextListener {
 }
 ```
 2. contextInitialized 메서드에 의해 DB가 jwp.sql 파일의 정보들로 초기화된다.
-3. DispatcherServlet 클래스는 일반적으로 최초로 클라이언트에서 요청이 올 시점에 초기화되지만 @WebServlet 애노테이션의 loadOnStartup 속성이 지정되어 있어 톰캣 서버가 시작될 때 인스턴스가 생성된다.
-4. 따라서 DispatcherServlet 클래스의 init() 메서드가 호출된다.
-5. init() 메서드에 의해 RequestMapping의 initMapping()이 호출되어 url 매핑이 완료된다.
+3. ResourceFilter 클래스의 init() 메서드가 호출된다.
+4. DispatcherServlet 클래스는 일반적으로 최초로 클라이언트에서 요청이 올 시점에 초기화되지만 @WebServlet 애노테이션의 loadOnStartup 속성이 지정되어 있어 톰캣 서버가 시작될 때 인스턴스가 생성된다.
+5. 따라서 DispatcherServlet 클래스의 init() 메서드가 호출된다.
+6. init() 메서드에 의해 RequestMapping의 initMapping()이 호출되어 url 매핑이 완료된다.
 #### 2. Tomcat 서버를 시작한 후 http://localhost:8080으로 접근시 호출 순서 및 흐름을 설명하라.
 * 클라이언트가 요청을 하면 먼저 ResourceFilter에서 처리를 하게 된다.
 * 만약 /css, /js, /fonts, /images, /favicon.ico 와 같은 url로 시작하게 된다면 DispatcherServlet으로 전달하지 않고 바로 resource를 반환시킨다.
