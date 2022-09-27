@@ -21,6 +21,10 @@ function onSuccess(json, status){
   var answerTemplate = $("#answerTemplate").html();
   var template = answerTemplate.format(answer.writer, new Date(answer.createdDate), answer.contents, answer.answerId, answer.answerId);
   $(".qna-comment-slipp-articles").prepend(template);
+
+  // 답변 수 증가
+  var countOfAnswer = $("#qna-comment-count").text();
+  $("#qna-comment-count").text(++countOfAnswer);
 }
 
 function onError(xhr, status) {

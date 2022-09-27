@@ -51,4 +51,29 @@ public class ContextLoaderListener implements ServletContextListener {
 ```
 
 #### 7. next.web.qna package의 ShowController는 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
-* 
+```
+public class ShowController extends AbstractController {
+    private QuestionDao questionDao = new QuestionDao();
+    private AnswerDao answerDao = new AnswerDao();
+    private Question question;
+    private List<Answer> answers;
+
+    @Override
+    public synchronized ModelAndView execute(HttpServletRequest req, HttpServletResponse response) throws Exception {
+        Long questionId = Long.parseLong(req.getParameter("questionId"));
+        synchronized (this) {
+            question = questionDao.findById(questionId);
+            answers = answerDao.findAllByQuestionId(questionId);
+        }
+        ModelAndView mav = jspView("/qna/show.jsp");
+        mav.addObject("question", question);
+        mav.addObject("answers", answers);
+        return mav;
+    }
+}
+```
+* 클라이언트가 요청하지 않은 질문글을 반환할 수 있으며 다른 글의 댓글이 보여질 수도 있을 것이라 추측된다.
+* 멀티 쓰레드 상황에서 ShowController 클래스의 question과 answers 필드는 공유 자원이다.
+* 여러 쓰레드가 동시에 question과 answers에 접근하여 값을 바꿔버려도 서로 공유되기 때문에 원치 않는 값이 반환될 수 있는 것이다.
+* 위 문제는 synchronized를 통한 동기화로 공유자원에 대한 임계영역을 설정하여 해결할 수 있다.
+* 한 쓰레드가 자원을 사용할 수 있으면 다른 쓰레드들은 그 자원에 동시에 접근할 수 없는 것이다.

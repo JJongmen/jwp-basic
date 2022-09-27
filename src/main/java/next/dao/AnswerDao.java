@@ -31,6 +31,7 @@ public class AnswerDao {
 
         KeyHolder keyHolder = new KeyHolder();
         jdbcTemplate.update(psc, keyHolder);
+        new QuestionDao().increaseCountOfAnswer(answer.getQuestionId());
         return findById(keyHolder.getId());
     }
 
